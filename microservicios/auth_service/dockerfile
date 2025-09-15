@@ -1,0 +1,21 @@
+#imagen oficial de python pero liviana
+FROM python:3.11-slim
+
+# Establecer el directorio de trabajo del contenedor
+WORKDIR /app_auth
+
+#copia el archivo de dependencias pq si , mas rapido
+COPY requirements.txt .
+
+#Instala las dependencias del proyecto
+RUN pip install --no-cache-dir -r requirements.txt
+
+#copia todo el codigo fuente del contenedor
+COPY . .
+
+# le damos un puerto django
+EXPOSE 8001
+
+#definimos comando para gunicorn
+CMD ["gunicorn","--bind","0.0.0.0:8001","auth_service.wsgi:application"]
+
